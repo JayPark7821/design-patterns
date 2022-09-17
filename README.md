@@ -425,6 +425,85 @@ public class App {
 ___
 ___
 
+<br/> 
+
+<br/> 
+
+### 싱글톤 패턴 2. 싱글톤 (Singleton) 패턴 실무에서는 어떻게 쓰이나?
+
+
+* 자바 java.lang.Runtime
+* 스프링에서 빈의 스코프 중에 하나로 싱글톤 스코프.
+* 다른 디자인 패턴(빌더, 퍼사드, 추상 팩토리 등) 구현체의 일부로 쓰이기도 한다.
+
+
+### 자바 java.lang.Runtime
+
+```java
+public class App {
+
+	public static void main(String[] args) {
+		Runtime runtime = new Runtime(); // error
+        
+	}
+}
+```
+자바 Runtime은 new로는 만들수 없다.  
+  
+
+아래 Runtime을 보면 private 생성자로 선언되어있고  
+getRuntime을 통해서만 가져올 수 있다.
+
+![image](https://user-images.githubusercontent.com/60100532/190862228-18433da2-08cb-4b26-8e2a-11d83262d20f.png)
+
+<br/>  
+
+### 스프링에서 빈의 스코프 중에 하나로 싱글톤 스코프.
+> 엄밀하게 따지면 싱글톤 패턴과는 다르다!!!
+> 스프링이 ApplicationContext 내부에서 instance를 singleton으로 관리를 해주는것이지 싱글톤 패턴과는 엄밀하게 말하면 다르다!!!
+
+```java
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SpringConfig {
+
+	@Bean
+	public String hello() {
+		return "hello";
+	}
+
+}
+
+```
+
+```java
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+public class SpringExample {
+
+	public static void main(String[] args) {
+		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfig.class);
+		String hello = applicationContext.getBean("hello", String.class);
+		String hello1 = applicationContext.getBean("hello", String.class);
+		System.out.println(hello == hello1);
+		
+		// true
+	}
+}
+
+```
+
+___
+___
+
+<br/> 
+
+<br/> 
+
 ### 위에서 알아본 내용들을 복습해 보자!!!!!
 
 > 싱글톤 (Singleton) 패턴 복습
