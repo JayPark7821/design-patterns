@@ -323,3 +323,113 @@ public class App {
 	}
 }
 ```
+
+
+리플랙션에는 대응할수 있는 방법이 없다...
+사용하는 쪽에서 이상하게 사용하면 싱글톤으로 사용하는것을 포기한것이니 그러려니 할 수도 있지만
+이것까지 막고 싶은 경우에는
+
+단순하게 
+`enum`을 사용하면 된다.
+
+```java
+
+public enum Settings {
+	INSTANCE;
+}
+```
+
+위 코드는 리플렉션에 안전하다.
+
+```java
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+public class App {
+
+	public static void main(String[] args) throws
+		InvocationTargetException,
+		InstantiationException,
+		IllegalAccessException {
+
+		Settings settings = Settings.INSTANCE;
+
+		Settings settings1 = null;
+		Constructor<?>[] constructors = Settings.class.getDeclaredConstructors();
+		for (Constructor<?> constructor : constructors) {
+			constructor.setAccessible(true);
+			settings1 = (Settings)constructor.newInstance("INSTANCE");
+		}
+		System.out.println(settings == settings1);
+	}
+}
+/*
+    Exception in thread "main" java.lang.IllegalArgumentException: Cannot reflectively create enum objects
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:492)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.example.testddd.App.main(App.java:19)
+
+ */
+
+```
+
+enum은 reflection에서 newInstance를 할수 없도록 막아 놓았다.
+
+![image](https://user-images.githubusercontent.com/60100532/190861498-9c5704cd-b85d-4073-a88e-ce1a7e3ce9c7.png)
+
+
+enum은 기본적으로 Serializable을 구현하고 있다.
+enum의 바이트코드를 보면 Enum을 상속 받고 있다.
+![image](https://user-images.githubusercontent.com/60100532/190861586-7a07db7e-e892-48fa-a263-20bcfc25cfc5.png)  
+
+   
+ <br/> 
+
+이제 Enum class를 살펴보면  
+이미 Serializable을 구현하고 있다.  
+즉 우리가 만든 Settings도 Serializable을 구현하고있다.
+
+ <br/> 
+
+![image](https://user-images.githubusercontent.com/60100532/190861626-64d9974e-d72b-4f9a-a8e0-d98f1cc7b7cc.png)
+
+
+ <br/> 
+
+enum의 직렬화 역직렬화는  
+우리가 별다른 장치를 추가하지 않아도 안전하게 동일한 인스턴스로 역직렬화가 된다
+
+```java
+
+public class App {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		Settings settings = Settings.INSTANCE;
+
+		Settings settings1 = null;
+		try (ObjectOutput out = new ObjectOutputStream(new FileOutputStream("settings.obj"))) {
+			out.writeObject(settings);
+		}
+
+		try (ObjectInput in = new ObjectInputStream(new FileInputStream("settings.obj"))) {
+			settings1 = (Settings)in.readObject();
+		}
+
+		System.out.println(settings == settings1);
+		// true
+	}
+}
+
+```
+
+___
+___
+
+### 위에서 알아본 내용들을 복습해 보자!!!!!
+
+> 싱글톤 (Singleton) 패턴 복습
+> 
+> * 자바에서 enum을 사용하지 않고 싱글톤 패턴을 구현하는 방법은?
+> * private 생성자와 static 메소드를 사용하는 방법의 단점은?
+> * enum을 사용해 싱글톤 패턴을 구현하는 방법의 장점과 단점은?
+> * static inner 클래스를 사용해 싱글톤 패턴을 구현하라.
