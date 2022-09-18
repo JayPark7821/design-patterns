@@ -291,9 +291,16 @@ public class BlackShipFactory implements ShipFactory {
 ```
 
 ShipFactory와 Ship을 각가 구현, 상속받아 기존의 코드의 변경 없이    
-Blackship과 whiteship을 추가했다.
+Blackship과 whiteship을 추가했다.   
 
 <br />  
 
-하지만 클라이언트 코드가 변경된 것이 아니냐?? 라는 생각이 들 수도 있다.
+![image](https://user-images.githubusercontent.com/60100532/190911416-16ecb45a-d0bf-48c9-9c10-61cd7755c45d.png)
+
+<br />  
+
+하지만 클라이언트 코드가 변경된 것이 아니냐??  
+라는 생각이 들 수도 있다.  
+  
+
 이 부분은 다음에 알아보자.  
