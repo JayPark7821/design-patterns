@@ -25,12 +25,12 @@ public class App {
          */
 
         // 인스턴스를 새로 만드는 것이 아닌 기존에 있는 githubIssue를 활용해 복사한다음 원하는 데이터만 변경
-        GithubIssue clone = githubIssue.clone();
+//        GithubIssue clone = githubIssue.clone();
         // clone != githubIssue
         // clone.equals(githubIssue) true
 
-        clone.setId(2);
-        clone.setTitle("2주차 과제");
+//        clone.setId(2);
+//        clone.setTitle("2주차 과제");
 
     }
 
