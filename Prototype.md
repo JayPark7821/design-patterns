@@ -294,3 +294,76 @@ public class App {
     }
 ```
 
+<br/> 
+
+<br/> 
+
+___
+___ 
+
+* ### 프로토타입 패턴을 적용했을 때의 장단점
+* 장점
+  * 복잡한 객체를 만드는 과정을 숨길 수 있다.
+  * 기존 객체를 복제하는 과정이 새 인스턴스를 만드는 것보다 비용(시간 또는 메모리)적인 면에서 효율적일 수도 있다.
+  * 추상적인 타입을 리턴할 수 있다.
+* 단점
+  * 복제한 객체를 만드는 과정 자체가 복잡할 수 있다.(특히, 순환 참조가 있는 경우)
+
+
+___  
+
+
+<br/> 
+
+<br/> 
+
+### 프로토타입 패턴 실무에서는 어떻게 쓰이나?
+
+* 자바 Object클래스의 clone 메소드와 Cloneable 인터페이스
+* shallow copy와 deep copy
+* ModelMapper
+
+프로토타입 패턴은 아니지만 다음 예제를 한번 살펴 보자.
+
+```java
+public class JavaCollectionExample {
+
+    public static void main(String[] args) {
+        Student keesun = new Student("keesun");
+        Student whiteship = new Student("whiteship");
+        List<Student> students = new ArrayList<>();
+        students.add(keesun);
+        students.add(whiteship);
+
+        // ArrayList<Student> clone = (ArrayList<Student>) students.clone();
+
+        List<Student> clone = new ArrayList<>(students);
+        System.out.println(clone);
+    }
+}
+```
+
+![image](https://user-images.githubusercontent.com/60100532/191971794-30c5282a-0849-45d7-8ec4-c2f74e16bb7b.png)
+ArrayList가 구현하고있는 Cloneable을 사용해서 clone을 할 수 있지만
+```java
+ArrayList<Student> clone = (ArrayList<Student>) students.clone(); 
+```
+
+이 방법은 잘 쓰이지 않는다.
+
+우리는 보통 어떤 변수에 타입을 지정할때 가능한 그 타입을 추상적인 타입을 사용한다.  
+해서 보통  ArrayList<Student> students = new ArrayList<>();가 아닌 List<Student> students = new ArrayList<>();로 선언한다.
+추상적인 타입을 사용해 좀더 유연하게 가져갈 수 있다.  
+추상적인 타입을 사용하면 뒤에오는 오브젝트를 추상적인 타입을 구현한 다른 구현체로 얼마든지 바꿀 수 있다.
+  
+  
+하지만 List는 Cloneable을 상속하고 있지 않다.  
+해서 보통은 위의 예제 코드 처럼 생성자를 사용한다.
+(엄밀하게 따지만 프로토타입은 아니다)
+```java
+List<Student> clone = new ArrayList<>(students);
+```
+
+  
+
+
