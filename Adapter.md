@@ -266,4 +266,51 @@ ___
   * 기존 코드가 하던 일과 특정 인터페이스 구현체로 변환하는 작업을 각기 다른 클래스로 분리하여 관리할 수 있다. (단일 책임 원칙 SRP)
 * 단점
   * 새 클래스가 생겨 복잡도가 증가할 수 있다. 경우에 따라서는 기존 코드가 해당 인터페이스를 구현하도록 수정하는 것이 좋은 선택이 될 수도 있다.
+
+___
+___
+
+<br/> 
+
+<br/> 
+
+### 어댑터 (Adapter) 패턴 
+실무에서 어떻게 쓰이나?
+
+* 자바
+  * java.util.Arrays#asList(T...)
+  * java.util.Collections#list(Enumeration),java.util.Collections#enumeration()
+  * java.io.InputStreamReader(InputStream)
+  * java.io.OutputStreamWriter(OutputStream)
+* 스프링
+  * HandlerAdapter : 우리가 작성하는 다양한 형태의 핸들러 코드를 스프링 MVC가 실행할 수 있는 형태로 변환해주는 어댑터용 인터페이스 
   
+
+####  *  자바
+```java
+
+public class AdapterInJava {
+
+    public static void main(String[] args) {
+        // collections
+        List<String> strings = Arrays.asList("a", "b", "c");
+        Enumeration<String> enumeration = Collections.enumeration(strings);
+        // Strings -> Adaptee
+        // Collections.enumeration -> Adapter
+        // Enumeration -> target
+        ArrayList<String> list = Collections.list(enumeration);
+
+        // io
+        try(InputStream is = new FileInputStream("input.txt");
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader reader = new BufferedReader(isr)) {
+            while(reader.ready()) {
+                System.out.println(reader.readLine());
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+```
+ 
