@@ -255,4 +255,82 @@ ___
     * 계층 구조가 늘어나 복잡도가 증가할 수 있다.
 
 
+___
+___
+
+<br/> 
+
+<br/> 
+
+### 브릿지 (Bridge) 패턴
+실무에서 어떻게 쓰이나?
+
+* 자바
+  * JDBC API , DriverManager와 Driver
+  * SLF4J 로깅 퍼사드와 로거
+* 스프링
+  * Portable Service Abstraction
+
+#### JDBC API
+```java
+
+public class JdbcExample {
+
+
+    public static void main(String[] args) throws ClassNotFoundException {
+        Class.forName ("org.h2.Driver");
+
+        try (Connection conn = DriverManager.getConnection ("jdbc:h2:mem:~/test", "sa","")) {
+
+            String sql =  "CREATE TABLE  ACCOUNT " +
+                    "(id INTEGER not NULL, " +
+                    " email VARCHAR(255), " +
+                    " password VARCHAR(255), " +
+                    " PRIMARY KEY ( id ))";
+
+            Statement statement = conn.createStatement();
+            statement.execute(sql);
+
+//            PreparedStatement statement1 = conn.prepareStatement(sql);
+//            ResultSet resultSet = statement.executeQuery(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+```
+추후에 다른 db가 추가되더라고 추상화 되어있는 인터페이스 자체는 변경되지 않아도 된다.  
+Connection 코드라던가 DriverManager 코드 Statement,  PreparedStatement, ResultSet 코드가 
+새로운 DB 새로운 드라이버가 나오더라도 위 코드듣은 변하지 않는다.
+
+
+#### SLF4J 로깅 퍼사드와 로거
+
+```java
+public class Slf4jExample {
+
+    private static Logger logger = LoggerFactory.getLogger(Slf4jExample.class);
+
+    public static void main(String[] args) {
+        logger.info("hello logger");
+    }
+}
+
+```
+
+어떤 로거를 쓰던 상관없이 Slf4j의 LoggerFactory 또는 Logger는 변하지 않는다.    
+로깅 퍼사드를 사용하는 이유중 하나가 라이브러리나 프레임워크에서 log4j를 사용한다면    
+결국 그 라이브러리나 프레임워크를 사용하는 클라이언트 코드들도 결국  log4j사용을 강제당하게 된다.     
+하지만 로깅 퍼사드를 사용하면 클라이언트 쪽에서 로거를 선택할수 있도록 해준다.   
+
+
+#### 스프링 
+```java
+public class BridgeInSpring {
+    public static void main(String[] args) {
+        MailSender mailSender = new JavaMailSenderImpl();
+        PlatformTransactionManager platformTransactionManager = new JdbcTransactionManager();
+    }
+}
+```
 
