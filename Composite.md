@@ -170,4 +170,43 @@ ___
  
 * 단점
   * 트리를 만들어야 하기 때문에 (공통된 인터페이스를 정의해야 하기 때문에) 지나치게 일반화 해야 하는 경우도 생길 수 있다.
-  
+
+
+___
+___
+
+<br/> 
+
+<br/> 
+
+### 컴포짓 (Composite) 패턴
+실무에서 어떻게 쓰이나?
+
+* 자바
+  * Swing 라이브러리
+  * JSF (JavaServer Faces) 라이브러리
+
+
+```java
+
+public class SwingExample {
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
+
+        JTextField textField = new JTextField();
+        textField.setBounds(200, 200, 200, 40);
+        frame.add(textField);
+
+        JButton button = new JButton("click");
+        button.setBounds(200, 100, 60, 40);
+        button.addActionListener(e -> textField.setText("Hello Swing"));
+        frame.add(button);
+
+        frame.setSize(600, 400);
+        frame.setLayout(null);
+        frame.setVisible(true);
+    }
+}
+
+```
