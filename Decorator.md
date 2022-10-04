@@ -223,3 +223,71 @@ ___
 * 단점
     * 데코레이터를 조합하는 코드가 복잡할 수 있다.
 
+
+___
+___
+
+<br/> 
+
+<br/> 
+
+### 데코레이터 (Decorator) 패턴
+실무에서 어떻게 쓰이나?
+
+* 자바
+  * InputStream, OutputStream, Reader, Writer의 생성자를 활용한 랩퍼
+  * java.util.Collections가 제공하는 메소드들 활용한 랩퍼
+  * javax.servlet.http.HttpServletRequest/ResponseWrapper
+* 스프링
+  * ServerHttpRequestDecorator
+  
+
+```java
+
+public class DecoratorInJava {
+
+    public static void main(String[] args) {
+        // Collections가 제공하는 데코레이터 메소드
+        ArrayList list = new ArrayList<>();
+        list.add(new Book());
+
+        List books = Collections.checkedList(list, Book.class);
+
+
+//        books.add(new Item());
+
+        List unmodifiableList = Collections.unmodifiableList(list);
+        list.add(new Item());
+        unmodifiableList.add(new Book());
+
+
+        // 서블릿 요청 또는 응답 랩퍼
+        HttpServletRequestWrapper requestWrapper;
+        HttpServletResponseWrapper responseWrapper;
+    }
+
+    private static class Book {
+
+    }
+
+    private static class Item {
+
+    }
+}
+
+```
+
+```java
+public class DecoratorInSpring {
+
+    public static void main(String[] args) {
+        // 빈 설정 데코레이터
+        BeanDefinitionDecorator decorator;
+
+        // 웹플럭스 HTTP 요청 /응답 데코레이터
+        ServerHttpRequestDecorator httpRequestDecorator;
+        ServerHttpResponseDecorator httpResponseDecorator;
+    }
+}
+
+```
