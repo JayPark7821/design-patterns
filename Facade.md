@@ -190,3 +190,47 @@ public class Client {
     }
 }
 ```
+
+
+
+___
+___
+
+<br/> 
+
+<br/> 
+
+### 퍼사드 (Facade) 패턴 장단점
+* 장점
+    * 서브 시스템에 대한 의존성을 한곳으로 모을 수 있다. 
+
+* 단점
+    * 퍼사드 클래스가 서브 시스템에 대한 모든 의존성을 가지게 된다.
+
+모든 서브시스템에 대한 의존성을 퍼사드가 가지고 있지만.  
+클라이언트 코드의 코드 가독성이 좋아진다면 의미 있다고 생각할 수 있다. 
+
+퍼사드 적용전에는 클라이언트 코드에서 라이브러리 코드에 대하여 자세히 알고 있어야 했지만.  
+퍼사드에서 구현해 추상화 해놓는다면 코드를 사용하는 클라이언트 입장에서 사용하기 쉽게 만들 수 있다. 
+
+
+___
+___
+
+<br/> 
+
+<br/> 
+
+### 퍼사드 (Facade) 패턴  
+실무에서 어떻게 쓰이나?
+
+* 스프링
+    * Spring MVC
+    * 스프링이 제공하는 대부분의 기술 독립적인 인터페이스와 그 구현체
+
+
+```java
+        MailSender mailSender = new JavaMailSenderImpl();
+
+        PlatformTransactionManager platformTransactionManager = new JdbcTransactionManager();
+```  
