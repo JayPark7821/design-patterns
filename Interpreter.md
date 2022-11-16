@@ -1,5 +1,5 @@
 # Design-patterns
-## 구조적인 패턴(Structural Patterns)
+## 행동 관련 패턴(Behavioral Patterns)
 
 ---
 ### 인터프리터 (Interpreter) 패턴
