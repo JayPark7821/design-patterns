@@ -206,7 +206,7 @@ ___
 
 <br/> 
 
-### 인터프리터 (Interpreter) 패턴
+### 이터레이터 (Iterator) 패턴
 
 * 자바
   * java.util.Enumeration과 java.util.Iterator
