@@ -1,8 +1,8 @@
 package org.designpatterns._03_behavioral_patterns._18_memento._03_java;
 
-import me.whiteship.designpatterns._03_behavioral_patterns._18_memento._01_before.Game;
-
 import java.io.*;
+
+import org.designpatterns._03_behavioral_patterns._18_memento._02_after.Game;
 
 public class MementoInJava {
 
