@@ -170,7 +170,7 @@ ___
 
 <br/> 
 
-### 중재자 (Mediator) 패턴
+### 메멘토 (Memento) 패턴
 
 * 자바
   * 객체 긱렬화, java.io.Serializable
